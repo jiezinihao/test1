@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-    </div>
-    <router-view />
+      <router-link to="/"></router-link>
+      <router-view />
   </div>
 </template>
 
 <style lang="scss">
-#app {
-
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 </style>
