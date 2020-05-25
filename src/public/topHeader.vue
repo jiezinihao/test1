@@ -57,12 +57,10 @@ export default {
             height: 100%;
             width: 100%;
             opacity: 1;
-            border: .5px solid grey;
+            border-bottom: .5px solid grey;
             color: gray;
-            border-radius: 5px;
             i{
-                margin: 8px 0 0 40%;
-
+                margin: 8px 0 0 10%;
             }
         }
     }
@@ -92,6 +90,6 @@ export default {
     opacity: 0;
 }
 .search-in-enter-active{
-    transition:all .4s ease;
+    transition:all .4s ease-out;
 }
 </style>

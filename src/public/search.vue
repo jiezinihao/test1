@@ -38,11 +38,12 @@ export default {
         position:absolute;
         left: 50%;
         top:0;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         text-align: center;
         background-color: #fff;
         transform: translate(-50%);
+        z-index: 1000;
         .searchlab{
             height: 6vh;
             position: relative;

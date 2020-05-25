@@ -14,6 +14,15 @@ import ElementUI from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
+//引入axios
+import Axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios,Axios)
+
+//导入默认请求地址
+Vue.prototype.defaulturl = "http://xmproject.cn:21507"
+
+
 //导入自定义组件
 import Search from "./public/search.vue"
 import TopHeader from "./public/topHeader.vue"
