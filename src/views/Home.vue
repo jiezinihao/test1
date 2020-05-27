@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <topHeader class="topheader"></topHeader>
+    <topHeader class="topHeader"></topHeader>
     <div class="carousel">
       <el-carousel height="150px">
         <el-carousel-item v-for="item in ad" :key="item.Id">
@@ -17,8 +17,14 @@
 
     <div class="model" v-for="item in model" :key="item.title">
       <div class="model-header">
-        <span class="model-title">{{ item.title }}</span>
-        <span class="model-title-desc">hot</span>
+        <span class="model-title"
+          >{{ item.title }}
+          <span class="model-title-desc">hot</span>
+        </span>
+        <router-link :to="{name:'bookSort',params:{bookId:item.sort}}" >
+        
+        <span class="model-title-more"><i>更多...</i> </span>
+        </router-link>
       </div>
       <div class="model-slide">
         <div
@@ -28,7 +34,7 @@
         >
           <img :src="defaulturl + item1.bookImage" />
           <span class="model-slide-caption">{{ item1.bookName }}</span>
-          <span class="author">{{ item.writerName }}</span>
+          <span class="author">{{ item1.writerName }}</span>
         </div>
       </div>
     </div>
@@ -44,9 +50,7 @@ export default {
       hometrs: "",
     };
   },
-  watch: {
-
-  },
+  watch: {},
   created() {
     this.getBookHome();
   },
@@ -55,6 +59,7 @@ export default {
       this.axios.get(this.defaulturl + "/api/BookHome/GetHome").then((res) => {
         this.ad = res.data.Result.ad;
         this.model = res.data.Result.list;
+        // console.log(res);
       });
     },
   },
@@ -69,7 +74,7 @@ export default {
   display: flex;
   flex-direction: column;
   // justify-content: space-ar;
-  .topheader {
+  .topHeader {
     position: relative;
     height: 6vh;
     width: 95vw;
@@ -91,7 +96,7 @@ export default {
     margin-bottom: 10px;
   }
   .model {
-    height: 30vh;
+    height: 37vh;
     width: 100vw;
     background-color: #fff;
 
@@ -100,15 +105,30 @@ export default {
       width: 90%;
       padding: 10px 0 10px 10px;
       overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+              a{
+          text-decoration: none;
+        }
       .model-title {
+        height: 70%;
         border-left: 2px solid red;
         padding: 0 5px;
         font-weight: bold;
         font-size: 1.1rem;
+        .model-title-desc {
+          font-size: 0.7rem;
+          color: gray;
+        }
       }
-      .model-title-desc {
-        font-size: 0.7rem;
-        color: gray;
+
+      .model-title-more {
+        color: #3498db;
+        font-size: .8rem;
+        height: 50%;
+        width: 30%;
+        text-align: right;
+
       }
     }
     .model-slide {
@@ -124,12 +144,13 @@ export default {
         flex-direction: column;
         margin: 0 10px;
         img {
-          max-width: 20vw;
-          max-height: 13vh;
+          max-width: 30vw;
+          max-height: 15vh;
         }
         .model-slide-caption {
-          font-weight: bold;
-          font-size: 0.9rem;
+          height: 2rem;
+          overflow: hidden;
+          font-size: 0.7rem;
         }
         .author {
           font-size: 0.5rem;

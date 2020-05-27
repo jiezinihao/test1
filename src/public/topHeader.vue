@@ -1,10 +1,10 @@
 <template>
-    <div class="topheader">
+    <div class="topHeader">
         <div class="icon">
         星尘
         </div>
         <div class="search" >
-            <transition name="search-in" mode="out-in">
+            <transition name="search-in" >
                 <search class="search-cantainer" v-if="searchclick" @cancel="cancel"></search>
                 <div v-else @click="search()" class="search-body">
                     <i class="fa fa-search"></i>
@@ -39,8 +39,8 @@ export default {
     },
 }
 </script>
-<style lang="scss">
-.topheader{
+<style lang="scss" scoped>
+.topHeader{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -85,15 +85,15 @@ export default {
 .search-in-leave-active{
     transition: all .2s ease;
 }
-// .search-in-leave,.search-in-enter-to{
-//     height: 100%;
-//     width: 100%;
-// }
+.search-in-leave,.search-in-enter-to{
+    height: 100%;
+    width: 100%;
+}
 .search-in-leave-to,.search-in-enter{
     transform: scaleX(1.1);
     opacity: 0;
 }
 .search-in-enter-active{
-    transition:all .4s ease-out;
+    transition:all .2s ease;
 }
 </style>

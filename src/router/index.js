@@ -1,8 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/home.vue";
 import Login from "../views/login.vue"
 import SelfBook from "../views/selfBook.vue"
+import BookSort from "../views/public/bookSort.vue"
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,11 @@ const routes = [
     path:"/selfBook",
     name:"selfBook",
     component:SelfBook
+  },
+  {
+    path:"/bookSort/:sortId",
+    name:"bookSort",
+    component:BookSort
   }
 ];
 
