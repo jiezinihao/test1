@@ -12,9 +12,13 @@
             </transition>
         </div>
         <div class="user">
-
-            <i class="fa fa-user-o"></i>
-            <i class="fa fa-book"></i>
+            <router-link to="/login">
+                <i class="fa fa-user-o"></i>
+            </router-link>
+            <router-link to="/selfBook">
+                <i class="fa fa-book"></i>
+            </router-link>
+            
         </div>
     </div>
 </template>
@@ -68,10 +72,10 @@ export default {
         margin: .5vh;
         flex: 2;
         font-size: 1.3rem;
-        color: gray;
         text-align: right;
-        i:nth-child(2){
-            margin: 0 10px;
+        i{
+            margin: 0 5px;
+            color: gray;
         }
     }
 

@@ -43,7 +43,7 @@ export default {
         text-align: center;
         background-color: #fff;
         transform: translate(-50%);
-        z-index: 1000;
+        // z-index: 1000 !important;
         .searchlab{
             height: 6vh;
             position: relative;

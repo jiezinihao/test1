@@ -19,6 +19,10 @@ import Axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios,Axios)
 
+//引入vue-cookies
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 //导入默认请求地址
 Vue.prototype.defaulturl = "http://xmproject.cn:21507"
 
