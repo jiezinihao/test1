@@ -4,6 +4,8 @@ import Home from "../views/home.vue";
 import Login from "../views/login.vue"
 import SelfBook from "../views/selfBook.vue"
 import BookSort from "../views/public/bookSort.vue"
+import BookDetail from "../views/public/bookDetail"
+import SelfHome from "../views/selfHome.vue"
 
 Vue.use(VueRouter);
 
@@ -28,9 +30,19 @@ const routes = [
     component:SelfBook
   },
   {
-    path:"/bookSort/:sortId",
+    path:"/bookSort:/sortId",
     name:"bookSort",
     component:BookSort
+  },
+  {
+    path:"/bookDetail:/bookId",
+    name:"bookDetail",
+    component:BookDetail
+  },
+  {
+    path:"/selfHome",
+    name:"selfHome",
+    component:SelfHome
   }
 ];
 

@@ -8,10 +8,16 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-
     <div class="home-nav">
-      <div v-for="item in model" :key="item.title">
-        {{ item.title }}
+      <div v-for="item in model" :key="item.title" class="nav-item">
+        <router-link
+          class="nav-a"
+          :to="{ name: 'bookSort', params: { bookId: item.sort } }"
+        >
+          <div><img :src="item.imgclass" /></div>
+
+          <p>{{ item.title }}</p>
+        </router-link>
       </div>
     </div>
 
@@ -21,23 +27,25 @@
           >{{ item.title }}
           <span class="model-title-desc">hot</span>
         </span>
-        <router-link :to="{name:'bookSort',params:{bookId:item.sort}}" >
-        
-        <span class="model-title-more"><i>更多...</i> </span>
+        <router-link :to="{ name: 'bookSort', params: { bookId: item.sort } }">
+          <span class="model-title-more"><i>更多...</i> </span>
         </router-link>
       </div>
       <div class="model-slide">
-        <div
+        <router-link
+          :to="{name:'bookDetail',params:{bookId:item1.bookId}}"
+        
           class="model-slide-son"
           v-for="item1 in item.books"
           :key="item1.bookId"
         >
-          <img :src="defaulturl + item1.bookImage" />
-          <span class="model-slide-caption">{{ item1.bookName }}</span>
-          <span class="author">{{ item1.writerName }}</span>
-        </div>
+            <img :src="defaulturl + item1.bookImage" />
+            <span class="model-slide-caption">{{ item1.bookName }}</span>
+            <span class="author">{{ item1.writerName }}</span>
+        </router-link>
       </div>
     </div>
+    <copy-right></copy-right>
   </div>
 </template>
 
@@ -59,7 +67,12 @@ export default {
       this.axios.get(this.defaulturl + "/api/BookHome/GetHome").then((res) => {
         this.ad = res.data.Result.ad;
         this.model = res.data.Result.list;
-        // console.log(res);
+        // console.log(res)
+        //被动添加分类图标
+        this.model[0].imgclass = require("../public/更新.png");
+        this.model[1].imgclass = require("../public/推荐.png");
+        this.model[2].imgclass = require("../public/人气热度.png");
+        // console.log(this.model);
       });
     },
   },
@@ -69,11 +82,22 @@ export default {
 <style lang="scss" scoped>
 .home {
   min-height: 100vh;
-  background-color: #f6f7f9;
+  // background: linear-gradient(to top right,#f6f7f9,#b2bec3);
   position: relative;
   display: flex;
   flex-direction: column;
+  position: relative;
   // justify-content: space-ar;
+  // filter: blur(5px);
+  &::before{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    content: "";
+    background:#f6f1f9;
+    filter: blur(20px);
+    z-index: -1;
+  }
   .topHeader {
     position: relative;
     height: 6vh;
@@ -91,9 +115,29 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    align-items: center;
     background-color: #fff;
     height: 10vh;
     margin-bottom: 10px;
+    .nav-item {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30vw;
+      text-align: center;
+      img {
+        // height: 50%;
+        width: 27%;
+      }
+      .nav-a {
+        text-decoration: none;
+        color: gray;
+      }
+      p {
+        margin: 0;
+      }
+    }
   }
   .model {
     height: 37vh;
@@ -107,9 +151,9 @@ export default {
       overflow: hidden;
       display: flex;
       justify-content: space-between;
-              a{
-          text-decoration: none;
-        }
+      a {
+        text-decoration: none;
+      }
       .model-title {
         height: 70%;
         border-left: 2px solid red;
@@ -124,11 +168,10 @@ export default {
 
       .model-title-more {
         color: #3498db;
-        font-size: .8rem;
+        font-size: 0.8rem;
         height: 50%;
         width: 30%;
         text-align: right;
-
       }
     }
     .model-slide {
@@ -138,6 +181,10 @@ export default {
       overflow-x: scroll;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      a {
+        text-decoration: none;
+        display: inline-block;
+      }
       .model-slide-son {
         display: flex;
         align-items: center;
@@ -150,7 +197,8 @@ export default {
         .model-slide-caption {
           height: 2rem;
           overflow: hidden;
-          font-size: 0.7rem;
+          font-size: 0.8rem;
+          color: #2d3436;
         }
         .author {
           font-size: 0.5rem;

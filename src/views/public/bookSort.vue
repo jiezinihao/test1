@@ -10,6 +10,7 @@
         
       </span>
     </div>
+    <div class="book">
     <div class="bookList" v-for="item in bookList" :key="item.bookId">
       <img :src='defaulturl + item.bookImage' />
       <div class="list-detail">
@@ -30,6 +31,8 @@
         </div>
       </div>
     </div>
+    </div>
+    <copy-right></copy-right>
   </div>
 </template>
 <script>
@@ -94,6 +97,10 @@ export default {
       color: gray;
       opacity: 0.7;
     }
+  }
+  .book{
+    width: 100%;
+    min-height: 81vh;
   }
   .bookList {
     width: 97%;

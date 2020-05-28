@@ -9,18 +9,24 @@
       </span>
     </div>
     <div class="incentct">
-      <img :src='defaulturl + incentBook[0].bookImage' alt="" />
+      <div
+        class="bgc" :style="{backgroundImage: 'url(' + defaulturl + incentBook[0].bookImage + ')',}"
+      ></div>
+      <img :src="defaulturl + incentBook[0].bookImage" />
       <div class="book-detail">
-        <div class="book-name">最近收藏：<span>{{incentBook[0].bookName}}</span></div>
+        <div class="book-name">
+          最近收藏：<span>{{ incentBook[0].bookName }}</span>
+        </div>
         <el-button>继续阅读</el-button>
       </div>
     </div>
     <div class="book-list">
       <div class="book-list-item" v-for="item in bookList" :key="item.bookId">
-        <img :src='defaulturl + item.bookImage' alt="" />
-        <div class="book-name">{{item.bookName}}</div>
+        <img :src="defaulturl + item.bookImage" alt="" />
+        <div class="book-name">{{ item.bookName }}</div>
       </div>
     </div>
+    <copy-right></copy-right>
   </div>
 </template>
 <script>
@@ -29,7 +35,7 @@ export default {
     return {
       bookList: [],
       offset: 1,
-      incentBook:[{bookImage:"",bookName:""}]
+      incentBook: [{ bookImage: "", bookName: "" }],
     };
   },
   created() {
@@ -51,8 +57,8 @@ export default {
             }
           )
           .then((res) => {
-            this.bookList = res.data.Result.books
-            this.incentBook = this.bookList.splice(0,1)
+            this.bookList = res.data.Result.books;
+            this.incentBook = this.bookList.splice(0, 1);
             // console.log(this.incentBook)
           });
       } else {
@@ -96,12 +102,22 @@ export default {
     padding: 10px 0;
     margin: 0 10px;
     border-bottom: 1px solid rgba(99, 110, 114, 0.4);
+    position: relative;
+    .bgc {
+      position: absolute;
+      transform: translate(-10px,-10px);
+      z-index: -1;
+      height: 100%;
+      width: 100%;
+      opacity: .6;
+      background-size: cover;
+      filter: blur(5px);
+    }
     img {
       max-height: 20vh;
       border-radius: 5px;
     }
     .book-detail {
-      opacity: 0.8;
       margin: 10px;
       font-size: 0.9rem;
       display: flex;
@@ -109,6 +125,7 @@ export default {
       justify-content: space-between;
       .book-name {
         span {
+          opacity: 1 !important;
           font-size: 1.3rem;
           color: rgba(255, 118, 117, 1);
         }
@@ -119,15 +136,18 @@ export default {
     display: flex;
     flex-flow: wrap;
     margin: 10px;
+    min-height: 56vh;
     .book-list-item {
-        margin: 9px;
+      margin: 9px;
+      width:18vw ;
       img {
         width: 18vw;
         border-radius: 5px;
       }
-      .book-name{
-          font-size: .8rem;
-          text-align: center;
+      .book-name {
+        font-size: 0.8rem;
+        text-align: center;
+        
       }
     }
   }

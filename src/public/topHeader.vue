@@ -12,9 +12,9 @@
             </transition>
         </div>
         <div class="user">
-            <router-link to="/login">
+            <span @click="beforego()">
                 <i class="fa fa-user-o"></i>
-            </router-link>
+            </span>
             <router-link to="/selfBook">
                 <i class="fa fa-book"></i>
             </router-link>
@@ -26,10 +26,19 @@
 export default {
     data(){
         return{
-             searchclick:false
+             searchclick:false,
+             usergo:""
         }
     },
     methods: {
+        beforego(){
+            if(this.$cookies.isKey("token")){
+                this.$router.push("selfHome")
+            }else{
+                this.$router.push("login")
+            }
+            
+        },
         search(){
             this.searchclick = !(this.searchclick)
         },
@@ -39,7 +48,7 @@ export default {
     },
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .topHeader{
     display: flex;
     justify-content: space-between;

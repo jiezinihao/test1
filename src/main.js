@@ -30,8 +30,10 @@ Vue.prototype.defaulturl = "http://xmproject.cn:21507"
 //导入自定义组件
 import Search from "./public/search.vue"
 import TopHeader from "./public/topHeader.vue"
+import CopyRight from "./public/copyRight.vue"
 Vue.component("topHeader",TopHeader);
-Vue.component("search",Search)
+Vue.component("search",Search);
+Vue.component("copy-right",CopyRight);
 
 new Vue({
   router,
