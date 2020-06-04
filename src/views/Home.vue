@@ -10,14 +10,12 @@
     </div>
     <div class="home-nav">
       <div v-for="item in model" :key="item.title" class="nav-item">
-        <router-link
-          class="nav-a"
-          :to="{ name: 'bookSort', params: { bookId: item.sort } }"
-        >
-          <div><img :src="item.imgclass" /></div>
-
-          <p>{{ item.title }}</p>
-        </router-link>
+        <div class="nav-a">
+          <div @click="setbookSort(item.sort)">
+            <img :src="item.imgclass" />
+            <p>{{ item.title }}</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -27,21 +25,27 @@
           >{{ item.title }}
           <span class="model-title-desc">hot</span>
         </span>
-        <router-link :to="{ name: 'bookSort', params: { bookId: item.sort } }">
+        <div @click="setbookSort(item.sort)">
           <span class="model-title-more"><i>更多...</i> </span>
-        </router-link>
+        </div>
       </div>
       <div class="model-slide">
         <router-link
-          :to="{name:'bookDetail',params:{bookId:item1.bookId}}"
-        
+          :to="{ name: 'bookDetail', params: { bookId: item1.bookId } }"
           class="model-slide-son"
           v-for="item1 in item.books"
           :key="item1.bookId"
         >
-            <img :src="defaulturl + item1.bookImage" />
-            <span class="model-slide-caption">{{ item1.bookName }}</span>
-            <span class="author">{{ item1.writerName }}</span>
+          <img
+            :src="defaulturl + item1.bookImage"
+            @click="setbookId(item1.bookId)"
+          />
+          <span class="model-slide-caption" @click="setbookId(item1.bookId)">{{
+            item1.bookName
+          }}</span>
+          <span class="author" @click="setbookId(item1.bookId)">{{
+            item1.writerName
+          }}</span>
         </router-link>
       </div>
     </div>
@@ -64,16 +68,26 @@ export default {
   },
   methods: {
     getBookHome() {
-      this.axios.get(this.defaulturl + "/api/BookHome/GetHome").then((res) => {
+      this.axios.get("http://xmproject.cn:21507/api/BookHome/GetHome").then((res) => {
         this.ad = res.data.Result.ad;
         this.model = res.data.Result.list;
-        // console.log(res)
+        console.log("1")
+        // console.log(res);
         //被动添加分类图标
         this.model[0].imgclass = require("../public/更新.png");
         this.model[1].imgclass = require("../public/推荐.png");
         this.model[2].imgclass = require("../public/人气热度.png");
         // console.log(this.model);
       });
+    },
+    setbookId(res) {
+      this.$cookies.remove("bookId");
+      this.$cookies.set("bookId", res);
+    },
+    setbookSort(res) {
+      this.$cookies.remove("bookSort")
+      this.$cookies.set("bookSort", res);
+      this.$router.push({name:"bookSort"})
     },
   },
 };
@@ -89,12 +103,12 @@ export default {
   position: relative;
   // justify-content: space-ar;
   // filter: blur(5px);
-  &::before{
+  &::before {
     position: absolute;
     height: 100%;
     width: 100%;
     content: "";
-    background:#f6f1f9;
+    background: #f6f1f9;
     filter: blur(20px);
     z-index: -1;
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="topHeader">
-      <span @click="goHome()"> <i class="fa fa-chevron-left"></i></span>
+      <span @click="goHome()"> <i class="fa fa-chevron-left"></i>书籍详情</span>
 
       <span class="tophader-right">
         <i class="fa fa-search"></i>
@@ -28,19 +28,27 @@
         </div>
       </div>
     </div>
+
     <div class="book-synopsis">
       <p>
         剧情概要：<span>{{ bookinfo.synopsis }}</span>
       </p>
     </div>
+    <div class="catalogue" @click="gocatalogue()">
+      <span>目录</span>
+      <i class="fa fa-angle-right"></i>
+    </div>
     <div class="book-opeartion">
-      <el-button type="primary">现在阅读</el-button>
+      <el-button type="primary" @click="goReadBook(bookinfo.lastReadingTime)">{{
+        bookinfo.lastReadingTime ? "继续阅读" : "现在阅读"
+      }}</el-button>
       <el-button
         :type="isCollection == '加入收藏' ? 'danger' : ''"
         @click="Collection()"
         >{{ isCollection }}</el-button
       >
     </div>
+
     <div class="book-decs">
       <div
         v-bind:class="[{ ondashang: clickds }, 'decs-item']"
@@ -98,6 +106,7 @@ export default {
       isCollection: "",
       clickds: false,
       fansValueNum: 0,
+      bookId: this.$cookies.get("bookId"),
     };
   },
   created() {
@@ -108,9 +117,7 @@ export default {
       if (this.$cookies.isKey("token")) {
         this.axios
           .get(
-            this.defaulturl +
-              "/api/Book/GetBookDetails?bookId=" +
-              this.$route.params.bookId,
+            this.defaulturl + "/api/Book/GetBookDetails?bookId=" + this.bookId,
             {
               headers: {
                 Authorization:
@@ -128,19 +135,44 @@ export default {
               this.isCollection = "加入收藏";
             }
           });
+      } else {
+        this.$router.push({ name: "login" });
       }
     },
     goHome() {
-      this.$router.push({ name: "home" });
+      this.$router.go(-1);
     },
+    //阅读部分
+    goReadBook(res) {
+      this.axios
+        .get(this.defaulturl + "/api/Book/GetBookIndex?bookId=" + this.bookId, {
+          headers: {
+            Authorization:
+              this.$cookies.get("token").token_type +
+              " " +
+              this.$cookies.get("token").access_token,
+          },
+        })
+        .then((res) => {
+          if (res != null) {
+                      this.$cookies.remove("chapterId");
+          this.$cookies.set("chapterId", res.data.Result.lastReadChapterId);
+          this.$router.push({ name: "readBook" });
+          } else {
+            this.$cookies.remove("chapterId");
+            this.$cookies.set("chapterId", res.data.Result.bookIndices[0].chaptr[0].chapterId);
+            this.$router.push({ name: "readBook" });
+          }
+
+        });
+    },
+    //收藏部分
     Collection() {
       if (!this.bookinfo.isCollection) {
         this.axios
           .post(
-            this.defaulturl +
-              "/api/User/CollectionBook?bookId=" +
-              this.$route.params.bookId,
-            this.$route.params.bookId,
+            this.defaulturl + "/api/User/CollectionBook?bookId=" + this.bookId,
+            this.bookId,
             {
               headers: {
                 Authorization:
@@ -151,6 +183,7 @@ export default {
             }
           )
           .then((res) => {
+            // console.log(res);conso
             if (res.data.Result.remsg == "收藏成功") {
               this.isCollection = "取消收藏";
               this.$message({
@@ -177,7 +210,7 @@ export default {
     //打赏部分
     dashang() {
       let msg = {
-        bookId: this.$route.params.bookId,
+        bookId: this.bookId,
         number: this.fansValueNum,
       };
       //   console.log(msg);
@@ -210,7 +243,7 @@ export default {
       this.axios
         .post(
           this.defaulturl + "/api/Community/Urge",
-          { bookId: this.$route.params.bookId },
+          { bookId: this.bookId },
           {
             headers: {
               Authorization:
@@ -234,6 +267,10 @@ export default {
           });
         });
     },
+    //进入目录部分
+    gocatalogue() {
+      this.$router.push({ name: "catalogue" });
+    },
   },
 };
 </script>
@@ -250,20 +287,26 @@ export default {
     z-index: -1;
   }
   .topHeader {
-    width: 92%;
+    width: 100%;
     height: 7vh;
     margin: 5px 0;
-    padding: 0 3vw;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
     border-bottom: 0.1px solid rgba(236, 240, 241, 1);
-    i {
-      height: 100%;
-      width: 10vw;
+    span {
+      margin-left: 20px;
       color: gray;
-      opacity: 0.7;
+    }
+    .tophader-right {
+      i {
+        height: 100%;
+        width: 10vw;
+        color: gray;
+        opacity: 0.7;
+      }
     }
   }
   .book-top {
@@ -297,17 +340,22 @@ export default {
   }
   .book-synopsis {
     background-color: #fff;
-    width: 90%;
+    width: 90vw;
     height: 10vh;
-    padding: 10px;
+    padding: 5vw;
     opacity: 0.7;
+    overflow: hidden;
+    p {
+      margin: 0;
+    }
     span {
       font-size: 0.8rem;
     }
   }
   .book-opeartion {
     width: 100%;
-    height: 15vh;
+    height: 12vh;
+    margin-top: 10px;
     background-color: #fff;
     display: flex;
     justify-content: space-evenly;
@@ -315,6 +363,22 @@ export default {
     .el-button {
       height: 50%;
       opacity: 0.7;
+    }
+  }
+  .catalogue {
+    width: 90vw;
+    height: 5vh;
+    background-color: #fff;
+    padding: 15px 5vw 0 5vw;
+    border-top: 0.1px solid rgba(149, 165, 166, 0.3);
+    span {
+      float: left;
+      padding-left: 10px;
+      font-weight: 600;
+    }
+    i {
+      float: right;
+      padding-right: 10px;
     }
   }
   .book-decs {

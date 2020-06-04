@@ -6,7 +6,8 @@ import SelfBook from "../views/selfBook.vue"
 import BookSort from "../views/public/bookSort.vue"
 import BookDetail from "../views/public/bookDetail"
 import SelfHome from "../views/selfHome.vue"
-
+import Catalogue from "../views/public/catalogue.vue"
+import readBook from "../views/public/readBook.vue"
 Vue.use(VueRouter);
 
 const routes = [
@@ -43,6 +44,16 @@ const routes = [
     path:"/selfHome",
     name:"selfHome",
     component:SelfHome
+  },
+  {
+    path:"/catalogue:/bookId",
+    name:"catalogue",
+    component:Catalogue
+  },
+  {
+    path:"/readBook",
+    name:"readBook",
+    component:readBook
   }
 ];
 

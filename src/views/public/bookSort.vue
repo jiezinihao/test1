@@ -11,14 +11,13 @@
       </span>
     </div>
     <div class="book">
-    <div class="bookList" v-for="item in bookList" :key="item.bookId">
+    <div class="bookList" v-for="item in bookList" :key="item.bookId" @click="goBookDetail(item.bookId)">
       <img :src='defaulturl + item.bookImage' />
       <div class="list-detail">
         <span class="detail-title">{{ item.bookName }}</span>
         <div class="detail-desc">
           <div>
-            已被收藏<span>{{ item.collection }}</span
-            >次！
+            已被收藏<span>{{ item.collection }}</span>次！
           </div>
           <div>
             <span>{{ item.fansValue }}</span
@@ -41,6 +40,7 @@ export default {
     return {
       bookList: [],
       offset: 1,
+      bookSort:this.$cookies.get("bookSort")
     };
   },
   created() {
@@ -50,13 +50,13 @@ export default {
     getBookList() {
       this.axios
         .get(
-          `${this.defaulturl}/api/BookHome/GetBookListBySort?sort=${this.$route.params.bookId}&offset=${this.offset}&size=20`
+          `${this.defaulturl}/api/BookHome/GetBookListBySort?sort=${this.bookSort}&offset=${this.offset}&size=20`
         )
         .then((res) => {
           // console.log(res);
           this.bookList = res.data.Result.books;
           for (let i = 0, len = this.bookList.length; i < len; i++) {
-            switch (this.$route.params.bookId) {
+            switch (this.bookSort) {
               case 1:
                 this.bookList[i].sortimg = "全站更新";
                 break;
@@ -73,6 +73,11 @@ export default {
     goHome() {
       this.$router.push({ name: "home" });
     },
+    goBookDetail(res){
+       this.$cookies.remove("bookId")
+      this.$cookies.set("bookId",res)
+      this.$router.push({name:"bookDetail"})
+    }
   },
 };
 </script>

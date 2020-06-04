@@ -54,6 +54,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     position: relative;
+
+    
     .icon{
         text-align: center;
         flex: 1;
@@ -63,7 +65,7 @@ export default {
         height: 5vh;
         margin-left: 10px ;
         .search-cantainer{
-            height: 100vh;
+            height: 100%;
             width: 100vw;
         }
         .search-body{
