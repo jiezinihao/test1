@@ -63,14 +63,25 @@ export default {
             }
             this.axios.post(this.defaulturl + "/api/Login/emailLogin",msg)
             .then((res)=>{
-                console.log(res)
+                this.$message({
+                    showClose:true,
+                    message:"登录成功",
+                    type:"success"
+                })
                 if(res.status == 200){
-
+                        
                     this.$router.push('home')
                     this.$cookies.set("token",res.data.Result.token)
                     // console.log(this.$cookies.get("token"))
                 }
 
+            })
+            .catch((err)=>{
+                this.$message({
+                    showClose:true,
+                    message:"账号或密码错误",
+                    type:"danger"
+                })
             })
             
         },

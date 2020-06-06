@@ -24,7 +24,7 @@ import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 
 //导入默认请求地址
-Vue.prototype.defaulturl = "http://xmproject.cn:21507"
+Vue.prototype.defaulturl = "http://xmproject.cn:21505"
 
 
 //导入自定义组件

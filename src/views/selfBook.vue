@@ -48,6 +48,7 @@
           </div>
         </div>
       </div>
+      <div class="book-L">
       <div class="book-list">
         <div
           class="book-list-item"
@@ -60,6 +61,7 @@
         </div>
       </div>
       <copy-right></copy-right>
+    </div>
     </div>
   </div>
 </template>
@@ -95,7 +97,7 @@ export default {
             console.log(res)
             this.bookList = res.data.Result.books;
             this.incentBook = this.bookList.splice(0, 1);
-            if (res.data.Result.total == 1) {
+            if (res.data.Result.total >= 1) {
               this.isnull = true;
             }
           });
@@ -151,6 +153,8 @@ export default {
     }
   }
 .container {
+  // min-height: 100vh;
+  // background-color: #f6f7f9;
   .incentct {
     display: flex;
     padding: 10px 0;
@@ -194,6 +198,7 @@ export default {
     .book-list-item {
       margin: 9px;
       width: 18vw;
+      height: 20vh;
       img {
         width: 18vw;
         border-radius: 5px;

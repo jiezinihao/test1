@@ -68,26 +68,29 @@ export default {
   },
   methods: {
     getBookHome() {
-      this.axios.get("http://xmproject.cn:21507/api/BookHome/GetHome").then((res) => {
-        this.ad = res.data.Result.ad;
-        this.model = res.data.Result.list;
-        console.log("1")
-        // console.log(res);
-        //被动添加分类图标
-        this.model[0].imgclass = require("../public/更新.png");
-        this.model[1].imgclass = require("../public/推荐.png");
-        this.model[2].imgclass = require("../public/人气热度.png");
-        // console.log(this.model);
-      });
+      this.axios
+        .get("http://xmproject.cn:21505/api/BookHome/GetHome")
+        .then((res) => {
+          console.log(res)
+          this.ad = res.data.Result.ad;
+          this.model = res.data.Result.list;
+          // console.log("1")
+          // console.log(res);
+          //被动添加分类图标
+          this.model[0].imgclass = require("../public/更新.png");
+          this.model[1].imgclass = require("../public/推荐.png");
+          this.model[2].imgclass = require("../public/人气热度.png");
+          // console.log(this.model);
+        });
     },
     setbookId(res) {
       this.$cookies.remove("bookId");
       this.$cookies.set("bookId", res);
     },
     setbookSort(res) {
-      this.$cookies.remove("bookSort")
+      this.$cookies.remove("bookSort");
       this.$cookies.set("bookSort", res);
-      this.$router.push({name:"bookSort"})
+      this.$router.push({ name: "bookSort" });
     },
   },
 };

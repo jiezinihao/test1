@@ -8,8 +8,12 @@
 </template>
 <style lang="scss" scoped>
 .bottom {
+  background: #f6f7f9;
   width: 100vw;
   text-align: center;
+  // position: absolute;
+  // bottom: 0;
+  // left: 0;
   .bottom-title {
     font-size: 0.5rem;
     color: gray;

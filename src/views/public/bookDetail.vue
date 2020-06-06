@@ -128,6 +128,7 @@ export default {
             }
           )
           .then((res) => {
+            console.log(res)
             this.bookinfo = res.data.Result;
             if (this.bookinfo.isCollection == 0) {
               this.isCollection = "取消收藏";
@@ -155,12 +156,12 @@ export default {
         })
         .then((res) => {
           if (res != null) {
-                      this.$cookies.remove("chapterId");
+          this.$cookies.remove("chapterId");
           this.$cookies.set("chapterId", res.data.Result.lastReadChapterId);
           this.$router.push({ name: "readBook" });
           } else {
             this.$cookies.remove("chapterId");
-            this.$cookies.set("chapterId", res.data.Result.bookIndices[0].chaptr[0].chapterId);
+            this.$cookies.set("chapterId", res.data.Result.bookIndices[0].chapter[0].chapterId);
             this.$router.push({ name: "readBook" });
           }
 

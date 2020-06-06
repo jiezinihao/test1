@@ -31,6 +31,33 @@
       </div>
       <div class="fontS">
         <svg
+          t="1591108474978"
+          class="icon"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="2579"
+          width="32"
+          height="32"
+          @click="fontSize -= 1"
+        >
+          <path
+            d="M631.1 266.9h345.4v41H631.1zM368.5 150.5L57.2 855.2h73.2l101.3-236.8h346.7l98.9 236.8h78.1L444.2 150.5h-75.7zM559 572H251.3l54.9-127.6c35.4-82.2 65.9-156.6 96.4-241.7h4.9c31.7 85.1 61 159.5 97.7 241.7L559 572z"
+            p-id="2580"
+            fill="#ffffff"
+          ></path>
+        </svg>
+        <el-slider
+          v-model="fontSize"
+          :step="1"
+          show-stops
+          :min="minFontSize"
+          :max="maxFontSize"
+          input-size="large"
+          class="slider"
+        ></el-slider>
+
+                <svg
           t="1591108596418"
           class="icon"
           viewBox="0 0 1024 1024"
@@ -52,32 +79,6 @@
             fill="#ffffff"
           ></path>
         </svg>
-        <el-slider
-          v-model="fontSize"
-          :step="1"
-          show-stops
-          :min="minFontSize"
-          :max="maxFontSize"
-          input-size="large"
-          class="slider"
-        ></el-slider>
-        <svg
-          t="1591108474978"
-          class="icon"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          p-id="2579"
-          width="32"
-          height="32"
-          @click="fontSize -= 1"
-        >
-          <path
-            d="M631.1 266.9h345.4v41H631.1zM368.5 150.5L57.2 855.2h73.2l101.3-236.8h346.7l98.9 236.8h78.1L444.2 150.5h-75.7zM559 572H251.3l54.9-127.6c35.4-82.2 65.9-156.6 96.4-241.7h4.9c31.7 85.1 61 159.5 97.7 241.7L559 572z"
-            p-id="2580"
-            fill="#ffffff"
-          ></path>
-        </svg>
       </div>
     </div>
     <div :class="['topheader', { activeTop: !topBottom }]" @click="goback()">
@@ -93,15 +94,16 @@
         <div>设置</div></span
       >
       <span
+       @click="changeBgc(5)"
         ><i class="fa  fa-moon-o"></i>
-        <div @click="changeBgc(5)">夜间</div></span
+        <div>夜间</div></span
       >
     </div>
     <div class="reading" v-if="indexBody >= 1">
       <div
         class="read-title"
         :style="{ fontSize: fontSize / 4 + 'rem', color: bgc.color }"
-        id="miaodian0"
+        ref="miaodian0"
       >
         {{ chapterBody[0].chapterTitle }}
       </div>
@@ -117,7 +119,7 @@
     <div class="reading" v-if="indexBody >= 2">
       <div
         class="read-title"
-        id="miaodian1"
+        ref="miaodian1"
         :style="{ fontSize: fontSize / 4 + 'rem', color: bgc.color }"
       >
         {{ chapterBody[1].chapterTitle }}
@@ -134,6 +136,7 @@
   </div>
 </template>
 <script>
+import {scrollAnimation} from "../../assets/anmation"
 export default {
   data() {
     return {
@@ -142,7 +145,7 @@ export default {
       chapterBody: [],
       indexBody: 0,
       drawer: false,
-      fontSize: 4,
+      fontSize: 5,
       topBottom: false,
       maxFontSize: 9,
       minFontSize: 2,
@@ -152,26 +155,38 @@ export default {
         backgroundColor: "#CBBFB7",
         color: "black",
       },
+      inHeight:0,
+      
     };
   },
-  created() {
+  created(){
     this.getBookBody(0);
     this.getcata();
-    let that = this;
-    window.onscroll = function() {
+    let  _this = this
+    window.addEventListener("scroll",function(){
       //变量scrollTop是滚动条滚动时，距离顶部的距离
-      var scrollTop = document.documentElement.scrollTop; //变量windowHeight是可视区的高度
+      console.log("1")
+      var scrollTop = Math.ceil(document.documentElement.scrollTop); //变量windowHeight是可视区的高度
       var clientHeight = document.documentElement.clientHeight; //变量scrollHeight是滚动条的总高度
       var scrollHeight = document.documentElement.scrollHeight; //滚动条到底部的条件
-      if (scrollTop + clientHeight + 10 >= scrollHeight && scrollTop > 0) {
-        that.getBookBody(1);
+      if (scrollTop + clientHeight >= scrollHeight && scrollTop > 0) {
+
+        _this.getBookBody(1);
       }
-    };
+    })
+  },
+  mounted() {
+
+
+  },
+
+  destroyed(){
   },
   methods: {
     //逻辑，如果当前页面有
     getBookBody(res) {
       if (res) {
+        // console.log("1")
         this.axios
           .get(
             `${
@@ -224,7 +239,7 @@ export default {
                 });
                 this.chapterBody.push(msg);
                 this.$nextTick(() => {
-                  document.getElementById("miaodian1").scrollIntoView();
+                  this.$refs.miaodian1.scrollIntoView();
                 });
 
                 if (this.indexBody >= 3) {
@@ -233,7 +248,13 @@ export default {
                   this.chapterBody.shift();
                 }
               });
-          });
+          })
+          // .catch((err)=>{
+          //   this.$message({
+          //     message:"已经是最后一章了！"
+
+          //   })
+          // })
       } else if (!res) {
         this.axios
           .get(
@@ -294,6 +315,19 @@ export default {
         $event.clientY < Math.floor(2 * (window.innerHeight / 3))
       ) {
         this.topBottom = this.topBottom = true;
+      }else if($event.clientY > Math.floor(2 * (window.innerHeight / 3))){
+        this.inHeight = document.documentElement.scrollTop + document.documentElement.clientHeight -50
+        
+        window.scrollTo({
+          top:this.inHeight,
+          behavior:"smooth"
+        })
+      }else {
+        this.inHeight = document.documentElement.scrollTop - document.documentElement.clientHeight +50
+        window.scrollTo({
+          top:this.inHeight,
+          behavior:"smooth"
+        })
       }
       if (this.drawer) {
         this.drawer = false;
@@ -331,7 +365,7 @@ export default {
           this.indexBody = 1;
           this.chapterBody.splice(0, this.chapterBody.length, msg);
           this.$nextTick(() => {
-            document.getElementById("miaodian0").scrollIntoView();
+            this.$refs.miaodian0.scrollIntoView();
           });
         });
       this.$cookies.remove("chapterId");
@@ -340,6 +374,7 @@ export default {
       this.drawer = false;
       this.topBottom = false;
     },
+      //改变背景
     changeBgc(res) {
       switch (res) {
         case 1: {
@@ -369,7 +404,7 @@ export default {
       }
     },
   },
-  //改变背景
+
 };
 </script>
 <style lang="scss" scoped>
@@ -393,34 +428,36 @@ export default {
     top: 7vh;
     height: 86vh;
     width: 80vw;
-    background-color: black;
+    background-color: rgba(0, 0, 0,.7) ;
     opacity: .9;
     transform: translateX(-100%);
     transition: all 0.2s ease;
     z-index: 10;
     .cata {
       // width: 70%;
-      // min-height: 86vh;
+      height: 83vh;
       padding: 10px;
-      background-color: black;
+      // background-color: black;
       opacity: .9;
+      overflow: scroll;
       .catalogue-title {
         margin-bottom: 10px;
         font-size: 0.6rem;
         color: gray;
       }
       .catalogue-body {
+        overflow: hidden;
         .cata-item {
           padding: 5px;
           color: white;
           border-bottom: 0.1px solid rgba(178, 190, 195, 0.3);
           border-radius: 5px;
           &:hover {
-            background-color: #dfe6e9;
+            background-color: black;
           }
         }
         .cata-focus {
-          background-color: #95a5a6;
+          background-color: black;
         }
       }
     }
@@ -526,6 +563,7 @@ export default {
     }
   }
   .reading {
+    margin: 5px;
     .read-title {
       opacity: 0.7;
       font-size: 0.7rem;
@@ -539,6 +577,7 @@ export default {
         white-space: pre-wrap;
         font-size: 1rem;
         line-height: 1.7rem;
+        font-weight: 500;
         z-index: 0;
         min-height: 100vh;
         // color:white;
