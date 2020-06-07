@@ -28,6 +28,10 @@
         </div>
       </div>
     </div>
+    <div class="write">
+    <el-input class="inp" v-model="writComment"></el-input>
+    <el-button class="btn" @click="postComment()">发表</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -36,6 +40,7 @@ export default {
     return {
       comment: [],
       offset: 1,
+      writComment:""
     };
   },
   created() {
@@ -67,6 +72,37 @@ export default {
           console.log(this.comment);
         });
     },
+    postComment(){
+      if(this.writComment == ""){
+          this.$message({
+          message:"评论不能为空哦！",
+          showClose:true
+        })
+        return
+
+      }
+      let msg = {
+        review:this.writComment,
+        bookId:this.$cookies.get("bookId"),
+        parentId:null
+      }
+      this.axios.post(this.defaulturl + "/api/Community/WriteBookReview",msg,          {
+            headers: {
+              Authorization:
+                this.$cookies.get("token").token_type +
+                " " +
+                this.$cookies.get("token").access_token,
+            },
+          })
+          .then((res)=>{
+            console.log(res)
+            this.writComment = ""
+             this.$nextTick(() => {
+                  this.getCommunity()
+                });
+            
+          })
+    }
   },
 };
 </script>
@@ -108,6 +144,7 @@ export default {
   }
 }
 .container {
+  position: relative;
   background-color: #f6f7f9;
   .comment {
     .comment-item {
@@ -157,6 +194,25 @@ export default {
           }
         }
       }
+      &:last-child{
+        margin-bottom: 15vh;
+      }
+    }
+  }
+  .write{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 90vw;
+    display: flex;
+    padding: 5vw;
+    // border-top: 1px solid rgba(127, 143, 166,1.0);
+    border-radius: 10px 10px 0 0;
+    background-color: rgba(0, 168, 255,.3);
+    justify-content: space-between;
+    .inp{
+      flex: 1;
+      margin-right: 10px;
     }
   }
 }
