@@ -1,32 +1,55 @@
 <template>
   <div class="container">
-  <div class="top-center">
-    <div class="topHeader">
-      <span @click="goHome()"> <i class="fa fa-chevron-left"></i>个人中心</span>
-      <span class="tophader-right">
-        <i class="fa fa-search"></i>
-      </span>
-    </div>
-    <div class="center">
-      <img :src="defaulturl + usermsg.image" alt="" />
-      <p>
-        {{ usermsg.userName
-        }}<i :class="['fa',usermsg.sex ? 'fa-male' : 'fa-female']"></i>
-      </p>
-    </div>
+    <div class="top-center">
+      <div class="topHeader">
+        <span @click="goHome()">
+          <i class="fa fa-chevron-left"></i>个人中心</span
+        >
+        <span class="tophader-right">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+      <div class="center">
+        <img :src="defaulturl + usermsg.image" alt="" />
+        <p>
+          {{ usermsg.userName
+          }}<i :class="['fa', usermsg.sex ? 'fa-male' : 'fa-female']"></i>
+        </p>
+        <p>UID:{{ usermsg.UID }}</p>
+        <el-button
+          style=" height: 30px;width: 70px; padding:7px;font-size:5px;opacity:.6;"
+          @click="checkIn()"
+          >{{isCheck?"已签到":"点击签到"}}</el-button
+        >
+      </div>
     </div>
     <div class="btn-group">
       <div class="xinceng"><span>星尘：</span> {{ usermsg.integral }}</div>
       <div class="chiugeng">
-        <span>已催更：</span><img src="../public/施工.png" alt="" />...
+        <span>已催更：</span><img src="../assets/施工.png" alt="" />...
       </div>
     </div>
     <div class="opeartion">
-      <div><img src="../public/消息.png" alt="" /><span>我的消息</span> <i class="fa fa-angle-right"></i></div>
-      <div><img src="../public/充值.png" alt="" /><span>充值中心</span> <i class="fa fa-angle-right"></i></div>
-      <div><img src="../public/经验.png" alt="" /><span>经验等级</span> <i class="fa fa-angle-right"></i></div>
-      <div><img src="../public/操作.png" alt="" /><span>用户操作</span> <i class="fa fa-angle-right"></i></div>
-      <div><img src="../public/帮助.png" alt="" /><span>帮助反馈</span> <i class="fa fa-angle-right"></i></div>
+      <div>
+        <img src="../assets/消息.png" alt="" /><span>我的消息</span>
+        <i class="fa fa-angle-right"></i>
+      </div>
+      <div>
+        <img src="../assets/充值.png" alt="" /><span>充值中心</span>
+        <i class="fa fa-angle-right"></i>
+      </div>
+      <div>
+        <img src="../assets/经验.png" alt="" /><span>经验等级</span>
+        <i class="fa fa-angle-right"></i>
+      </div>
+      <div>
+        <img src="../assets/操作.png" alt="" /><span>用户操作</span>
+        <i class="fa fa-angle-right"></i>
+      </div>
+      <div>
+        <img src="../assets/帮助.png" alt="" /><span>帮助反馈</span>
+        <i class="fa fa-angle-right"></i>
+      </div>
     </div>
     <copy-right></copy-right>
   </div>
@@ -37,6 +60,7 @@ export default {
     return {
       sex: 0,
       usermsg: {},
+      isCheck:false
     };
   },
   created() {
@@ -58,6 +82,7 @@ export default {
           },
         })
         .then((res) => {
+          console.log(res);
           this.usermsg = res.data.Result;
         });
     },
@@ -72,15 +97,36 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
         });
     },
+    //签到模组
+    checkIn(){
+      this.axios.get(this.defaulturl + "/api/Community/CheckIn",{
+          headers: {
+            Authorization:
+              this.$cookies.get("token").token_type +
+              " " +
+              this.$cookies.get("token").access_token,
+          },
+        })
+        .then((res)=>{
+          this.isCheck = true
+          this.getuserMsg()
+        })
+        .catch((err)=>{
+          this.$message({
+            message:"今天已经签到过了哦！",
+            showClose:true
+          })
+        })
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
 .container {
-  .top-center{
+  .top-center {
     background-image: url("../public/userbgc.jpg");
     background-size: cover;
     // filter: blur(10px);
@@ -112,11 +158,12 @@ export default {
     align-items: center;
     flex-direction: column;
     img {
-      border: .6px solid gray;
+      border: 0.6px solid gray;
       border-radius: 50%;
       height: 12vh;
     }
     p {
+      margin: 2px;
       font-size: 0.9rem;
       color: gray;
       i {
@@ -128,55 +175,54 @@ export default {
       }
     }
   }
-  .btn-group{
+  .btn-group {
     height: 7vh;
     display: flex;
     justify-content: space-evenly;
-    align-items:center;
+    align-items: center;
     color: gray;
-    font-size: .8rem;
+    font-size: 0.8rem;
     margin-bottom: 10px;
-    border: .1px solid rgba(178, 190, 195,.7);
+    border: 0.1px solid rgba(178, 190, 195, 0.7);
     border-style: none solid;
-    div{
+    div {
       flex: 1;
       text-align: center;
-      &:first-child{
-        border-right: 1px solid rgba(178, 190, 195,.7);
+      &:first-child {
+        border-right: 1px solid rgba(178, 190, 195, 0.7);
       }
     }
-    img{
+    img {
       height: 14px;
     }
-    span{
+    span {
       font-size: 1.1rem;
     }
   }
-  .opeartion{
+  .opeartion {
     width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
-    div{
+    div {
       width: 95%;
       margin: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px solid rgba(178, 190, 195,.7);
+      border-bottom: 1px solid rgba(178, 190, 195, 0.7);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      img{
+      img {
         height: 7vw;
         margin: 0 10px;
       }
-      span{
+      span {
         flex: 1;
       }
-      i{
-      padding: 0 10px;
+      i {
+        padding: 0 10px;
       }
     }
-
   }
 }
 </style>
