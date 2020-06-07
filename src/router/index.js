@@ -7,7 +7,8 @@ import BookSort from "../views/public/bookSort.vue"
 import BookDetail from "../views/public/bookDetail"
 import SelfHome from "../views/selfHome.vue"
 import Catalogue from "../views/public/catalogue.vue"
-import readBook from "../views/public/readBook.vue"
+import ReadBook from "../views/public/readBook.vue"
+import Community from "../views/public/community.vue"
 Vue.use(VueRouter);
 
 const routes = [
@@ -53,7 +54,12 @@ const routes = [
   {
     path:"/readBook",
     name:"readBook",
-    component:readBook
+    component:ReadBook
+  },
+  {
+    path:"/community",
+    name:"community",
+    component:Community
   }
 ];
 

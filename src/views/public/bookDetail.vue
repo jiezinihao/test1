@@ -1,13 +1,17 @@
 <template>
   <div class="container">
+  <div class="container">
     <div class="topHeader">
-      <span @click="goHome()"> <i class="fa fa-chevron-left"></i>书籍详情</span>
-
-      <span class="tophader-right">
+      <div class="tophader-left" @click="goHome()">
+        <i class="fa fa-chevron-left"></i><span>主页</span>
+      </div>
+      <span>书籍详情</span>
+      <div class="tophader-right">
         <i class="fa fa-search"></i>
         <router-link to="/selfBook"> <i class="fa fa-book"></i></router-link>
-      </span>
+      </div>
     </div>
+  </div>
     <div class="book-top">
       <img :src="defaulturl + bookinfo.bookImage" />
       <div class="book-info">
@@ -71,7 +75,7 @@
         <img src="../../assets/催单.png" />
         <p>催更</p>
       </div>
-      <div class="decs-item">
+      <div class="decs-item" @click="goCommunity()">
         <img src="../../assets/评论.png" />
         <p>评论</p>
       </div>
@@ -272,6 +276,10 @@ export default {
     gocatalogue() {
       this.$router.push({ name: "catalogue" });
     },
+    //评论部分
+    goCommunity(){
+      this.$router.push({name:"community"})
+    }
   },
 };
 </script>
@@ -287,29 +295,42 @@ export default {
     //   opacity: .;
     z-index: -1;
   }
-  .topHeader {
-    width: 100%;
-    height: 7vh;
-    margin: 5px 0;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    border-bottom: 0.1px solid rgba(236, 240, 241, 1);
+.topHeader {
+  width: 100%;
+  height: 7vh;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-bottom: 0.1px solid rgba(236, 240, 241, 1);
+  .tophader-left {
+    margin-left: 20px;
+    height: 100%;
+    line-height: 6vh;
     span {
-      margin-left: 20px;
+      font-size: 0.8rem;
       color: gray;
     }
-    .tophader-right {
       i {
         height: 100%;
-        width: 10vw;
         color: gray;
         opacity: 0.7;
+        margin-right: 5px;
       }
+  }
+
+  .tophader-right {
+    height: 100%;
+    line-height: 6vh;
+    i {
+      height: 100%;
+      width: 10vw;
+      color: gray;
+      opacity: 0.7;
     }
   }
+}
   .book-top {
     margin: 10px 0;
     border-radius: 5px;
