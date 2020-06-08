@@ -1,4 +1,4 @@
 
-mudule.exports = {
-    assetsPublicPath: './'
+module.exports = {
+    publicPath: './'
 }
