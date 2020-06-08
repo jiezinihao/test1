@@ -41,7 +41,8 @@
             最近收藏：<span>{{ incentBook[0].bookName }}</span>
           </div>
           <div>
-            <el-button>继续阅读</el-button>
+          <img src="../assets/shigong.png" style="height:15px">
+            <el-button type="danger">继续阅读</el-button>
             <el-button @click="goCatalogue(incentBook[0].bookId)"
               >目录</el-button
             >

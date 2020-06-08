@@ -26,28 +26,28 @@
     <div class="btn-group">
       <div class="xinceng"><span>星尘：</span> {{ usermsg.integral }}</div>
       <div class="chiugeng">
-        <span>已催更：</span><img src="../assets/施工.png" alt="" />...
+        <span>已催更：</span><img src="../assets/shigong.png" alt="" />...
       </div>
     </div>
     <div class="opeartion">
       <div>
-        <img src="../assets/消息.png" alt="" /><span>我的消息</span>
+        <img src="../assets/xiaoxi.png" alt="" /><span>我的消息</span>
         <i class="fa fa-angle-right"></i>
       </div>
       <div>
-        <img src="../assets/充值.png" alt="" /><span>充值中心</span>
+        <img src="../assets/chongzhi.png" alt="" /><span>充值中心</span>
         <i class="fa fa-angle-right"></i>
       </div>
       <div>
-        <img src="../assets/经验.png" alt="" /><span>经验等级</span>
+        <img src="../assets/jinyan.png" alt="" /><span>经验等级</span>
         <i class="fa fa-angle-right"></i>
       </div>
       <div>
-        <img src="../assets/操作.png" alt="" /><span>用户操作</span>
+        <img src="../assets/caozuo.png" alt="" /><span>用户操作</span>
         <i class="fa fa-angle-right"></i>
       </div>
       <div>
-        <img src="../assets/帮助.png" alt="" /><span>帮助反馈</span>
+        <img src="../assets/bangzhu.png" alt="" /><span>帮助反馈</span>
         <i class="fa fa-angle-right"></i>
       </div>
     </div>

@@ -77,9 +77,9 @@ export default {
           // console.log("1")
           // console.log(res);
           //被动添加分类图标
-          this.model[0].imgclass = require("../assets/更新.png");
-          this.model[1].imgclass = require("../assets/推荐.png");
-          this.model[2].imgclass = require("../assets/人气热度.png");
+          this.model[0].imgclass = require("../assets/gengx.png");
+          this.model[1].imgclass = require("../assets/tuijian.png");
+          this.model[2].imgclass = require("../assets/renqi.png");
           // console.log(this.model);
         });
     },

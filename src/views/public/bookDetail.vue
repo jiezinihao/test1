@@ -58,7 +58,7 @@
         v-bind:class="[{ ondashang: clickds }, 'decs-item']"
         @click="ondashang()"
       >
-        <img src="../../assets/打赏.png" />
+        <img src="../../assets/dashang.png" />
         <p>打赏</p>
         <div class="fansValue" v-show="clickds">
           <el-slider
@@ -72,11 +72,11 @@
         </div>
       </div>
       <div class="decs-item" @click="urge()">
-        <img src="../../assets/催单.png" />
+        <img src="../../assets/chuidan.png" />
         <p>催更</p>
       </div>
       <div class="decs-item" @click="goCommunity()">
-        <img src="../../assets/评论.png" />
+        <img src="../../assets/pinglun.png" />
         <p>评论</p>
       </div>
     </div>
